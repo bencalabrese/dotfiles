@@ -22,7 +22,7 @@ brew install stow nvm starship fzf gh
 #     config/ghostty/.config/ghostty/...
 DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-stow -d "$DOTFILES_DIR/config" -t "$HOME" starship raycast ghostty
+stow -d "$DOTFILES_DIR/config" -t "$HOME" starship raycast ghostty cursor
 
 
 # --- GUI apps (pick up configs laid down above) -----------------------------

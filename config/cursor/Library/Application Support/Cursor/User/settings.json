@@ -1,0 +1,305 @@
+{
+  "workbench.iconTheme": "vscode-icons",
+  "workbench.startupEditor": "newUntitledFile",
+  "workbench.editorAssociations": {
+      "*.md": "vscode.markdown.preview.editor"
+  },
+  "workbench.colorCustomizations": {
+      "editorOverviewRuler.bracketMatchForeground": "#0000"
+  },
+  "breadcrumbs.enabled": true,
+  "editor.fontSize": 18,
+  "editor.rulers": [
+      90
+  ],
+  "editor.tabSize": 2,
+  "editor.minimap.enabled": false,
+  "explorer.compactFolders": false,
+  "files.trimTrailingWhitespace": true,
+  "files.defaultLanguage": "typescript",
+  "files.exclude": {
+      "**/__pycache__": true,
+      "**/.cache": true,
+      "**/.config": true,
+      "**/.DS_Store": true,
+      "**/.git": true,
+      "**/.hg": true,
+      "**/.local": true,
+      "**/.svn": true,
+      "**/.upm": true,
+      "**/.vscode": true,
+      "**/*.egg-info": true,
+      "**/build": true,
+      "**/CVS": true,
+      "**/jest-coverage": true,
+      "**/node_modules": true,
+      "**/Thumbs.db": true
+  },
+  "scm.alwaysShowActions": true,
+  "scm.diffDecorations": "all",
+  "update.mode": "none",
+  "vsicons.dontShowNewVersionMessage": true,
+  "window.title": "${dirty}${activeEditorShort}${separator}${rootPath}${separator}${appName}",
+  "cSpell.allowCompoundWords": true,
+  "cSpell.diagnosticLevel": "Hint",
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "[json][javascript][scss][html][typescript][typescriptreact]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescript][typescriptreact]": {
+      "editor.codeActionsOnSave": [
+          "source.organizeImports",
+          "source.fixAll.eslint"
+      ],
+      "editor.formatOnSave": true
+  },
+  "[liquid]": {
+      "editor.formatOnSave": false
+  },
+  "rewrap.autoWrap.enabled": true,
+  "git.suggestSmartCommit": true,
+  "git.enableSmartCommit": true,
+  "gitlens.hovers.currentLine.over": "line",
+  "gitlens.codeLens.enabled": false,
+  "editor.wordWrapColumn": 100,
+  "gitlens.advanced.messages": {
+      "suppressCreatePullRequestPrompt": true,
+      "suppressGitVersionWarning": true
+  },
+  "typescript.disableAutomaticTypeAcquisition": true,
+  "workbench.editor.enablePreview": false,
+  "cSpell.userWords": [
+      "affordance",
+      "Ayai",
+      "bento",
+      "Cobranded",
+      "Cytoscape",
+      "deduped",
+      "deduping",
+      "dont",
+      "Duplicative",
+      "Eyai",
+      "FCOSE",
+      "formatjs",
+      "Galactica",
+      "Impls",
+      "jank",
+      "Jenn",
+      "Jovi",
+      "Metadatas",
+      "mojito",
+      "navigations",
+      "noauth",
+      "nums",
+      "OPENAI",
+      "ordinalities",
+      "ordinality",
+      "Otps",
+      "pkce",
+      "serializers",
+      "Signup",
+      "Siri",
+      "svgr",
+      "svgs",
+      "swiper",
+      "tailoros",
+      "thumbsed",
+      "totp",
+      "unstub",
+      "virtualenvs",
+      "xlarge",
+      "xsmall"
+  ],
+  "security.workspace.trust.untrustedFiles": "open",
+  "search.exclude": {
+      "**/build": true,
+      "**/jest-coverage": true,
+      "**/node_modules": true,
+      "package-lock.json": true,
+      "yarn.lock": true
+  },
+  "gitlens.sortBranchesBy": "name:asc",
+  "json.schemas": [
+      {
+          "fileMatch": [
+              "/manifest.json"
+          ],
+          "url": "https://json.schemastore.org/chrome-manifest.json"
+      }
+  ],
+  "editor.unicodeHighlight.ambiguousCharacters": false,
+  "typescript.tsserver.experimental.enableProjectDiagnostics": true,
+  "scm.autoReveal": false,
+  "git.openDiffOnClick": false,
+  "git.mergeEditor": true,
+  "files.associations": {
+      "**/logs/*.txt": "log",
+      "*.recipe": "markdown",
+      "env.*": "dotenv",
+      ".env*": "dotenv",
+      "*.yaml": "jinja-yaml"
+  },
+  "logFileHighlighter.customPatterns": [
+      {
+          "pattern": "(AM|PM)",
+          "foreground": "#5c6370"
+      }
+  ],
+  "[log]": {
+      "editor.largeFileOptimizations": false
+  },
+  "editor.tokenColorCustomizations": {
+      "textMateRules": [
+          {
+              "scope": "log.error",
+              "settings": {
+                  "foreground": "#af1f1f",
+                  "fontStyle": "bold"
+              }
+          },
+          {
+              "scope": "log.warning",
+              "settings": {
+                  "foreground": "#f4ad42",
+                  "fontStyle": ""
+              }
+          },
+          {
+              "scope": "log.string",
+              "settings": {
+                  "foreground": "#abb2bf",
+                  "fontStyle": ""
+              }
+          },
+          {
+              "scope": "log.constant",
+              "settings": {
+                  "foreground": "#abb2bf",
+                  "fontStyle": ""
+              }
+          }
+      ]
+  },
+  "editor.renderWhitespace": "all",
+  "editor.unicodeHighlight.nonBasicASCII": false,
+  "editor.largeFileOptimizations": false,
+  "gitlens.mode.active": "zen",
+  "editor.selectionHighlight": false,
+  "editor.occurrencesHighlight": "off",
+  "editor.scrollbar.horizontal": "hidden",
+  "editor.scrollbar.vertical": "hidden",
+  "editor.hideCursorInOverviewRuler": true,
+  "editor.overviewRulerBorder": false,
+  "[jsonc]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "workbench.colorTheme": "Atom One Dark",
+  "editor.multiCursorModifier": "alt",
+  "git.ignoreRebaseWarning": true,
+  "explorer.fileNesting.enabled": true,
+  "explorer.fileNesting.patterns": {
+      "*.module.css": "${capture}.module.css.d.ts",
+      "*.ts": "${capture}.js, ${capture}.test.ts",
+      "*.tsx": "${capture}.ts, ${capture}.test.ts, ${capture}.test.tsx"
+  },
+  "editor.formatOnPaste": false,
+  "git.confirmSync": false,
+  "diffEditor.ignoreTrimWhitespace": false,
+  "javascript.preferences.importModuleSpecifier": "relative",
+  "[css]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "typescript.preferences.importModuleSpecifier": "non-relative",
+  "typescript.preferences.jsxAttributeCompletionStyle": "auto",
+  "files.readonlyInclude": {
+      "**/node_modules": true
+  },
+  "editor.accessibilitySupport": "off",
+  "cssVariables.lookupFiles": [
+      "**/*.css",
+      "**/*.scss",
+      "**/*.sass",
+      "**/*.less"
+  ],
+  "cssVariables.blacklistFolders": [
+      "**/.git",
+      "**/.svn",
+      "**/.hg",
+      "**/CVS",
+      "**/.DS_Store",
+      "**/node_modules",
+      "**/bower_components",
+      "**/tmp",
+      "**/dist",
+      "**/build",
+      "**/tests"
+  ],
+  "liveshare.connectionMode": "relay",
+  "css.lint.important": "warning",
+  "css.lint.unknownAtRules": "ignore",
+  "css.lint.emptyRules": "ignore",
+  "css.lint.validProperties": [
+      "composes"
+  ],
+  "remote.SSH.remotePlatform": {
+      "sandbox.t5jxw9.csb": "linux",
+      "sandbox.vlqgjt.csb": "linux"
+  },
+  "python.languageServer": "None",
+  "scm.showChangesSummary": false,
+  "scm.showHistoryGraph": false,
+  "git.openRepositoryInParentFolders": "always",
+  "editor.linkedEditing": true,
+  "scss.lint.unknownAtRules": "ignore",
+  "folderTemplates.templateFolderPath": "../../../../../.fttemplates",
+  "editor.inlayHints.enabled": "off",
+  "[python]": {
+      "diffEditor.ignoreTrimWhitespace": false,
+      "editor.defaultFormatter": "charliermarsh.ruff",
+      "editor.codeActionsOnSave": {
+          "source.fixAll.markdownlint": "explicit",
+          "source.organizeImports": "explicit",
+          "source.format": "explicit",
+          "source.fixAll": "explicit"
+      },
+      "editor.formatOnSave": false
+  },
+  "gitlens.views.repositories.showUpstreamStatus": false,
+  "markdown.preview.doubleClickToSwitchToEditor": false,
+  "markdown.preview.markEditorSelection": false,
+  "diffEditor.hideUnchangedRegions.enabled": true,
+  "python.analysis.nodeExecutable": "node",
+  "python.analysis.logLevel": "Information",
+  "json.format.keepLines": true,
+  "azureTerraform.survey": {
+      "surveyPromptDate": "2025-10-31T07:42:38.129Z",
+      "surveyPromptIgnoredCount": 2
+  },
+  "scss.lint.emptyRules": "ignore",
+  "cursorpyright.nodeExecutable": "node",
+  "cursorpyright.analysis.logLevel": "Information",
+  "typescript.preferences.preferTypeOnlyAutoImports": true,
+  "gitlens.views.scm.grouped.views": {
+      "commits": true,
+      "branches": false,
+      "remotes": true,
+      "stashes": true,
+      "tags": true,
+      "worktrees": true,
+      "contributors": true,
+      "fileHistory": false,
+      "repositories": true,
+      "searchAndCompare": false,
+      "launchpad": false
+  },
+  "cursor.composer.shouldAllowCustomModes": true,
+  "[dockercompose]": {
+      "editor.insertSpaces": true,
+      "editor.tabSize": 2,
+      "editor.autoIndent": "advanced",
+      "editor.defaultFormatter": "redhat.vscode-yaml"
+  },
+  "[github-actions-workflow]": {
+      "editor.defaultFormatter": "redhat.vscode-yaml"
+  },
+}
