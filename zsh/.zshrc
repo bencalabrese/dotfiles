@@ -1,6 +1,8 @@
 # ----- zsh base -----
 autoload -U compinit; compinit -i -C
 
+DOTFILES_DIR="$HOME/dotfiles"
+
 # PATH (keep both Homebrew Intel/ARM + /usr/local fallbacks)
 export PATH="$HOME/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/usr/local/sbin:$PATH"
 
@@ -18,8 +20,8 @@ export NVM_DIR="$HOME/.nvm"
 eval "$(starship init zsh)"
 
 # Your common helpers (guarded)
-[ -f "$HOME/.aliases.sh" ]   && . "$HOME/.aliases.sh"
-[ -f "$HOME/.functions.sh" ] && . "$HOME/.functions.sh"
+source "$DOTFILES_DIR/zsh/.aliases.sh"
+source "$DOTFILES_DIR/zsh/.functions.sh"
 
 # Just run this on every shell startup to try to keep the list updated
 record_extensions
