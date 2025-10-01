@@ -21,6 +21,9 @@ eval "$(starship init zsh)"
 [ -f "$HOME/.aliases.sh" ]   && . "$HOME/.aliases.sh"
 [ -f "$HOME/.functions.sh" ] && . "$HOME/.functions.sh"
 
+# Just run this on every shell startup to try to keep the list updated
+record_extensions
+
 # ----- per-machine/work overrides -----
 # Put anything machine- or job-specific in ~/.zshrc.local (untracked)
 [ -f "$HOME/.zshrc.local" ] && . "$HOME/.zshrc.local"
