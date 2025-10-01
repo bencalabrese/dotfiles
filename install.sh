@@ -10,7 +10,6 @@ if ! command -v brew >/dev/null 2>&1; then
 fi
 
 brew update
-brew tap homebrew/cask-fonts
 
 # --- Core formulae BEFORE GUI apps (so configs exist first) -----------------
 brew install stow nvm starship fzf gh
@@ -23,12 +22,11 @@ brew install stow nvm starship fzf gh
 #     config/ghostty/.config/ghostty/...
 DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-stow -d "$DOTFILES_DIR" -t "$HOME" config/starship config/raycast config/ghostty
+stow -d "$DOTFILES_DIR/config" -t "$HOME" starship raycast ghostty
 
 
 # --- GUI apps (pick up configs laid down above) -----------------------------
 brew install --cask \
-  iterm2 \
   raycast \
   elgato-stream-deck \
   elgato-control-center \
@@ -36,7 +34,6 @@ brew install --cask \
   mutedeck \
   visual-studio-code \
   hiddenbar \
-  displaylink \
   ghostty \
   font-meslo-lg-nerd-font
 
