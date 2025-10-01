@@ -1,0 +1,51 @@
+# Universal defaults & aliases — NO personal/work identity here.
+
+[pull]
+  rebase = true
+
+[core]
+  editor = code --wait
+  excludesfile = ~/.gitignore_global
+  fsmonitor = true
+  untrackedCache = true
+  preloadIndex = true
+
+[color]
+  ui = auto
+
+[init]
+  defaultBranch = main
+
+[gpg]
+  # harmless if you don't sign; keeps work ready for SSH signing
+  format = ssh
+
+# === Aliases (portable) ===
+[alias]
+  sa = stash -u
+  sp = stash pop
+  rs = reset --soft
+  pm = pull origin master
+  cm = checkout master
+  cam = "!f() { \
+    if [ -z \"$(git diff --cached --name-only)\" ]; then git add -A; fi; \
+    git commit -m \"$*\"; \
+  }; f"
+  mb = "!f() { \
+    if [ -z \"$1\" ]; then echo 'Usage: mb <branch-name>'; return 1; fi; \
+    name=$(printf '%s' \"$*\" | tr ' ' '_'); \
+    branch=\"dev/bencalabrese/$name\"; \
+    git checkout -b \"$branch\"; \
+  }; f"
+  co = "!f() { \
+    branch=$(git branch --sort=-committerdate | grep -v '^\\*' | sed 's/^..//' | \
+      fzf --height 20 --reverse --preview 'git log -n 10 --color=always -- {}'); \
+    [ -n \"$branch\" ] && git checkout \"$branch\"; \
+  }; f"
+  ogh = "!f() { gh browse --branch \"$(git symbolic-ref --short HEAD)\"; }; f"
+
+# === Personal context by remote URL ===
+[includeIf "hasconfig:remote.*.url:git@github.com:bencalabrese/**"]
+  path = ~/.gitconfig.personal
+[includeIf "hasconfig:remote.*.url:https://github.com/bencalabrese/**"]
+  path = ~/.gitconfig.personal

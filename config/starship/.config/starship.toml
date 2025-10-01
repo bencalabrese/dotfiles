@@ -1,0 +1,25 @@
+# Get editor completions based on the config schema
+"$schema" = 'https://starship.rs/config-schema.json'
+
+# Remove blank line between shell prompts
+add_newline = false
+command_timeout = 2000
+
+[package]
+disabled = true
+
+[nodejs]
+disabled = false
+format = "via [$symbol($version )]($style)"
+
+[python]
+disabled = true
+
+[rust]
+disabled = true
+
+[golang]
+disabled = true
+
+[time]
+disabled = false

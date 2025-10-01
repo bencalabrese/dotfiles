@@ -1,27 +1,34 @@
-read -r -p "Check that the terminal app has 'Privacy and Security > App Management' permissions first. Press any key to continue..."
+#!/usr/bin/env bash
+set -euo pipefail
 
-# Install Homebrew itself
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-eval "$(/opt/homebrew/bin/brew shellenv)"
+read -r -p "Check 'System Settings → Privacy & Security → App Management' permissions for Terminal. Press Enter to continue..."
 
-# Make sure we can also get fonts
+# --- Homebrew ---------------------------------------------------------------
+if ! command -v brew >/dev/null 2>&1; then
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+fi
+
+brew update
 brew tap homebrew/cask-fonts
 
-# First install stow so we can get our various configs in place. We want these established before we
-# install applications that might write to them.
-brew install stow
+# --- Core formulae BEFORE GUI apps (so configs exist first) -----------------
+brew install stow nvm starship fzf gh
 
-# Set up our symlinks
-# This overwrites the symlinks dir in this repository with existing files on the machine if they're
-# already present. `git restore .` then undoes the overwrite but maintains the symlink.
-stow --adopt symlinks
-git restore .
+# --- Lay down ONLY the configs you want with stow ---------------------------
+# repo layout assumed:
+#   dotfiles/
+#     config/starship/.config/starship.toml
+#     config/raycast/.config/raycast/...
+#     config/ghostty/.config/ghostty/...
+DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-# Finally, use Homebrew to install other utils
-brew install \
+stow -d "$DOTFILES_DIR" -t "$HOME" config/starship config/raycast config/ghostty
+
+
+# --- GUI apps (pick up configs laid down above) -----------------------------
+brew install --cask \
   iterm2 \
-  nvm \
-  starship \
   raycast \
   elgato-stream-deck \
   elgato-control-center \
@@ -30,14 +37,15 @@ brew install \
   visual-studio-code \
   hiddenbar \
   displaylink \
+  ghostty \
   font-meslo-lg-nerd-font
 
-touch ~/.machine_specific_zshrc
-
-# This is a repeat of what's happening in our RC but we need to run it so that we can actually use
-# nvm below and sourcing the whole RC here has been problematic.
+# --- Minimal nvm bootstrap so we can use it right away ----------------------
 export NVM_DIR="$HOME/.nvm"
-[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh" # This loads nvm
-[ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" # This loads nvm bash_completion
+[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && . "/opt/homebrew/opt/nvm/nvm.sh"
+[ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && . "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"
 
-nvm install node
+# Install a Node version (choose your policy: latest/LTS/specific)
+nvm install --lts
+
+echo "✅ Install complete. Run ./bootstrap.sh next to wire zsh + gitconfig shims."
