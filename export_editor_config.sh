@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
+set -euo pipefail
 
-DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 EDITOR_EXPORT_DIR="$DOTFILES_DIR/editors/shared"
 
 get_editor_user_dir() {
@@ -76,32 +77,56 @@ get_editor_cli() {
   esac
 }
 
-install_extensions() {
-  local editor editor_cli extension_file extension
+main() {
+  local editor editor_user_dir editor_cli
 
-  editor="${1:-vscode}"
+  editor="${1:-}"
+  if [ -z "$editor" ]; then
+    editor="$(choose_editor)"
+  fi
+
+  editor_user_dir="$(get_editor_user_dir "$editor")" || {
+    echo "Unsupported OS or editor for export: $editor" >&2
+    exit 1
+  }
+
+  if [ ! -d "$editor_user_dir" ]; then
+    echo "Editor user directory not found: $editor_user_dir" >&2
+    exit 1
+  fi
+
   editor_cli="$(get_editor_cli "$editor")" || {
-    echo "Unknown editor: $editor"
-    return 1
+    echo "Unknown editor: $editor" >&2
+    exit 1
   }
 
   if ! command -v "$editor_cli" >/dev/null 2>&1; then
-    echo "Editor CLI not found: $editor_cli"
-    return 1
+    echo "Editor CLI not found: $editor_cli" >&2
+    exit 1
   fi
 
-  extension_file="$EDITOR_EXPORT_DIR/extensions.txt"
-  if [ ! -f "$extension_file" ]; then
-    echo "No exported extensions file found: $extension_file"
-    return 1
+  mkdir -p "$EDITOR_EXPORT_DIR/snippets"
+
+  if [ -f "$editor_user_dir/settings.json" ]; then
+    cp "$editor_user_dir/settings.json" "$EDITOR_EXPORT_DIR/settings.json"
   fi
 
-  while IFS= read -r extension; do
-    [ -n "$extension" ] || continue
-    "$editor_cli" --install-extension "$extension"
-  done < "$extension_file"
+  if [ -f "$editor_user_dir/keybindings.json" ]; then
+    cp "$editor_user_dir/keybindings.json" "$EDITOR_EXPORT_DIR/keybindings.json"
+  fi
+
+  printf '%s\n' "$editor" > "$EDITOR_EXPORT_DIR/source-editor.txt"
+
+  rm -f "$EDITOR_EXPORT_DIR/extensions.txt"
+  "$editor_cli" --list-extensions | sort > "$EDITOR_EXPORT_DIR/extensions.txt"
+
+  rm -rf "$EDITOR_EXPORT_DIR/snippets"
+  mkdir -p "$EDITOR_EXPORT_DIR/snippets"
+  if [ -d "$editor_user_dir/snippets" ]; then
+    cp -R "$editor_user_dir/snippets/." "$EDITOR_EXPORT_DIR/snippets/"
+  fi
+
+  echo "Exported editor config from $editor to $EDITOR_EXPORT_DIR"
 }
 
-export_editor_config() {
-  "$DOTFILES_DIR/export_editor_config.sh" "$@"
-}
+main "$@"

@@ -2,6 +2,7 @@
 autoload -U compinit; compinit -i -C
 
 DOTFILES_DIR="$HOME/dotfiles"
+export STARSHIP_CONFIG="$DOTFILES_DIR/starship/starship.toml"
 
 # PATH (keep both Homebrew Intel/ARM + /usr/local fallbacks)
 export PATH="$HOME/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/usr/local/sbin:$PATH"
@@ -22,9 +23,6 @@ eval "$(starship init zsh)"
 # Your common helpers (guarded)
 source "$DOTFILES_DIR/zsh/.aliases.sh"
 source "$DOTFILES_DIR/zsh/.functions.sh"
-
-# Just run this on every shell startup to try to keep the list updated
-record_extensions
 
 # ----- per-machine/work overrides -----
 # Put anything machine- or job-specific in ~/.zshrc.local (untracked)

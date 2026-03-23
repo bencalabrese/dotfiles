@@ -6,27 +6,31 @@ read -r -p "Check 'System Settings → Privacy & Security → App Management' pe
 # --- Homebrew ---------------------------------------------------------------
 if ! command -v brew >/dev/null 2>&1; then
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-  eval "$(/opt/homebrew/bin/brew shellenv)"
 fi
 
-brew update
+BREW_BIN="$(command -v brew || true)"
+if [ -z "${BREW_BIN:-}" ]; then
+  for candidate in /opt/homebrew/bin/brew /home/linuxbrew/.linuxbrew/bin/brew /usr/local/bin/brew; do
+    if [ -x "$candidate" ]; then
+      BREW_BIN="$candidate"
+      break
+    fi
+  done
+fi
 
-# --- Core formulae BEFORE GUI apps (so configs exist first) -----------------
-brew install stow nvm starship fzf gh
+if [ -z "${BREW_BIN:-}" ]; then
+  echo "Error: Homebrew was not found after installation." >&2
+  exit 1
+fi
 
-# --- Lay down ONLY the configs you want with stow ---------------------------
-# repo layout assumed:
-#   dotfiles/
-#     config/starship/.config/starship.toml
-#     config/raycast/.config/raycast/...
-#     config/ghostty/.config/ghostty/...
-DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+eval "$("$BREW_BIN" shellenv)"
 
-stow -d "$DOTFILES_DIR/config" -t "$HOME" starship raycast ghostty cursor
+echo "==> Updating Homebrew..."
+"$BREW_BIN" update
 
-
-# --- GUI apps (pick up configs laid down above) -----------------------------
-brew install --cask \
+# --- Packages ---------------------------------------------------------------
+"$BREW_BIN" install nvm starship fzf gh
+"$BREW_BIN" install --cask \
   raycast \
   elgato-stream-deck \
   elgato-control-center \

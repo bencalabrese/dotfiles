@@ -1,4 +1,5 @@
 #!/bin/bash
+set -euo pipefail
 
 # Manually set preferences
 # Caps Lock -> Control for all keyboards
@@ -7,22 +8,86 @@
 # Dark mode
 osascript -e 'tell app "System Events" to tell appearance preferences to set dark mode to true'
 
-DOTFILES_DIR="$HOME/dotfiles"
+DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 # Append a shim to load your dotfiles zshrc
 ZSHRC="$HOME/.zshrc"
-cat >> "$ZSHRC" <<EOF
+mkdir -p "$(dirname "$ZSHRC")"
+touch "$ZSHRC"
+if ! grep -Fq 'source "$DOTFILES_DIR/zsh/.zshrc"' "$ZSHRC"; then
+  cat >> "$ZSHRC" <<EOF
 
 # Load dotfiles zsh config
 if [ -f "$DOTFILES_DIR/zsh/.zshrc" ]; then
   source "$DOTFILES_DIR/zsh/.zshrc"
 fi
 EOF
-echo "✅ Appended dotfiles source block to $ZSHRC"
+  echo "✅ Appended dotfiles source block to $ZSHRC"
+else
+  echo "ℹ️  dotfiles source block already present in $ZSHRC"
+fi
+
+if [ "$(uname -s)" = "Darwin" ]; then
+  GHOSTTY_CONFIG_DIR="$HOME/Library/Application Support/com.mitchellh.ghostty"
+else
+  GHOSTTY_CONFIG_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/ghostty"
+fi
+
+mkdir -p "$GHOSTTY_CONFIG_DIR"
+cat > "$GHOSTTY_CONFIG_DIR/config" <<EOF
+config-file = $DOTFILES_DIR/ghostty/config
+EOF
+echo "✅ wrote Ghostty config shim to $GHOSTTY_CONFIG_DIR/config"
+
+if [ "$(uname -s)" = "Darwin" ]; then
+  VSCODE_USER_DIR="$HOME/Library/Application Support/Code/User"
+else
+  VSCODE_USER_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/Code/User"
+fi
+
+EDITOR_EXPORT_DIR="$DOTFILES_DIR/editors/shared"
+if [ -d "$EDITOR_EXPORT_DIR" ]; then
+  mkdir -p "$VSCODE_USER_DIR/snippets"
+
+  if [ -f "$EDITOR_EXPORT_DIR/settings.json" ]; then
+    cp "$EDITOR_EXPORT_DIR/settings.json" "$VSCODE_USER_DIR/settings.json"
+    echo "✅ imported VS Code settings"
+  fi
+
+  if [ -f "$EDITOR_EXPORT_DIR/keybindings.json" ]; then
+    cp "$EDITOR_EXPORT_DIR/keybindings.json" "$VSCODE_USER_DIR/keybindings.json"
+    echo "✅ imported VS Code keybindings"
+  fi
+
+  if [ -d "$EDITOR_EXPORT_DIR/snippets" ]; then
+    cp -R "$EDITOR_EXPORT_DIR/snippets/." "$VSCODE_USER_DIR/snippets/"
+    echo "✅ imported VS Code snippets"
+  fi
+
+  if [ -f "$EDITOR_EXPORT_DIR/extensions.txt" ] && command -v code >/dev/null 2>&1; then
+    while IFS= read -r extension; do
+      [ -n "$extension" ] || continue
+      code --install-extension "$extension"
+    done < "$EDITOR_EXPORT_DIR/extensions.txt"
+    echo "✅ installed VS Code extensions from shared export"
+  fi
+fi
 
 HOME_GITCONFIG="$HOME/.gitconfig"
 HOME_LOCAL="$HOME/.gitconfig.local"         # local only (created if missing)
 HOME_WORK="$HOME/.gitconfig.work"           # local only (created if missing)
+
+if [ -L "$HOME_GITCONFIG" ] && [ ! -e "$HOME_GITCONFIG" ]; then
+  rm "$HOME_GITCONFIG"
+fi
+
+if [ -L "$HOME_LOCAL" ] && [ ! -e "$HOME_LOCAL" ]; then
+  rm "$HOME_LOCAL"
+fi
+
+if [ -L "$HOME_WORK" ] && [ ! -e "$HOME_WORK" ]; then
+  rm "$HOME_WORK"
+fi
 
 # 1) Create ~/.gitconfig (shim) if missing — reference repo files directly
 if [ ! -f "$HOME_GITCONFIG" ]; then
