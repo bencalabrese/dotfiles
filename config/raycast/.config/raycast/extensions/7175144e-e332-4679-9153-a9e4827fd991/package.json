@@ -178,6 +178,11 @@
     "prettier": "^3.1.1",
     "typescript": "^5.3.3"
   },
+  "scripts": {
+    "build": "ray build -e dist",
+    "dev": "ray develop",
+    "lint": "ray lint"
+  },
   "ai": {
     "instructions": "You are a helpful assistant that can help with tasks related to the Elgato Key Light. You can do things like turn the lights on and off, apply a preset or make new presets. When creating presets, use these guidelines for common scenarios: - Sunny day: brightness 90%, temperature 80% (warm) - Night: brightness 10%, temperature 10% (very warm) - Day: brightness 80%, temperature 60% (moderately warm) - Cold/Cool: brightness 50%, temperature 20% (cool white) - Warm: brightness 50%, temperature 80% (warm white). When creating presets, always convert the preset name to Title Case (e.g., 'sunny day' becomes 'Sunny Day'). When applying presets, use the 'presetName' parameter with the lowercase preset name (e.g., 'night' not 'Night'). Match these standard values for consistent lighting presets.",
     "evals": [

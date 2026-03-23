@@ -6,6 +6,7 @@ bazelbuild.vscode-bazel
 bradlc.vscode-tailwindcss
 charliermarsh.ruff
 dbaeumer.vscode-eslint
+detachhead.basedpyright
 eamodio.gitlens
 emilast.logfilehighlighter
 esbenp.prettier-vscode
@@ -39,7 +40,9 @@ timonwong.shellcheck
 unifiedjs.vscode-mdx
 viijay-kr.react-ts-css
 vincaslt.highlight-matching-tag
+vitest.explorer
 vscode-icons-team.vscode-icons
 vunguyentuan.vscode-css-variables
 wix.vscode-import-cost
 wmaurer.change-case
+zxh404.vscode-proto3

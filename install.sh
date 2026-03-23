@@ -35,7 +35,8 @@ brew install --cask \
   visual-studio-code \
   hiddenbar \
   ghostty \
-  font-meslo-lg-nerd-font
+  font-meslo-lg-nerd-font \
+  polypane
 
 # --- Minimal nvm bootstrap so we can use it right away ----------------------
 export NVM_DIR="$HOME/.nvm"

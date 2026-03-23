@@ -27,21 +27,50 @@
   rs = reset --soft
   pm = pull origin master
   cm = checkout master
+
+  # Make a commit with the message passed in with barewords
   cam = "!f() { \
     if [ -z \"$(git diff --cached --name-only)\" ]; then git add -A; fi; \
     git commit -m \"$*\"; \
   }; f"
+
+  # Make a branch with the name passed in with barewords. They'll be joined with underscores.
   mb = "!f() { \
     if [ -z \"$1\" ]; then echo 'Usage: mb <branch-name>'; return 1; fi; \
     name=$(printf '%s' \"$*\" | tr ' ' '_'); \
     branch=\"dev/bencalabrese/$name\"; \
     git checkout -b \"$branch\"; \
   }; f"
+
+  # Check out a remote branch by name (fetches only that branch, then tracks it locally)
+  cor = "!f() { \
+    if [ -z \"$1\" ]; then echo 'Usage: cor <branch-name>'; return 1; fi; \
+    branch=\"$1\"; \
+    git fetch origin \"$branch\" && git switch \"$branch\"; \
+  }; f"
+
+  # Use fuzzy find to check out a local branch
   co = "!f() { \
     branch=$(git branch --sort=-committerdate | grep -v '^\\*' | sed 's/^..//' | \
       fzf --height 20 --reverse --preview 'git log -n 10 --color=always -- {}'); \
     [ -n \"$branch\" ] && git checkout \"$branch\"; \
   }; f"
+
+  # Use fuzzy find to pick local branches to delete.
+  cleanup = "!f() { \
+    branches=$(git branch --sort=-committerdate | grep -v '^\\*' | sed 's/^..//' | \
+      fzf --height 20 --reverse --multi --preview 'git log -n 5 --color=always -- {}' \
+          --prompt='Select branches to delete > ' \
+          --header='Tab to select, Enter to confirm'); \
+    [ -z \"$branches\" ] && echo 'No branches selected.' && return; \
+    echo 'The following branches will be deleted:'; \
+    echo \"$branches\"; \
+    read -p 'Are you sure? [y/N] ' confirm; \
+    [ \"$confirm\" != 'y' ] && echo 'Aborted.' && return; \
+    echo \"$branches\" | xargs -n 1 git branch -D; \
+  }; f"
+
+  # Open Github for the current branch
   ogh = "!f() { gh browse --branch \"$(git symbolic-ref --short HEAD)\"; }; f"
 
 # === Personal context by remote URL ===
