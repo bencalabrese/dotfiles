@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+DOTFILES_DIR="$(cd "$(dirname "${(%):-%N}")/.." && pwd)"
 EDITOR_EXPORT_DIR="$DOTFILES_DIR/editors/shared"
 
 get_editor_user_dir() {

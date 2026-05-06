@@ -30,7 +30,9 @@ echo "==> Updating Homebrew..."
 
 # --- Packages ---------------------------------------------------------------
 "$BREW_BIN" install nvm starship fzf gh
-"$BREW_BIN" install --cask \
+
+casks_to_install=()
+for cask in \
   raycast \
   elgato-stream-deck \
   elgato-control-center \
@@ -40,7 +42,20 @@ echo "==> Updating Homebrew..."
   hiddenbar \
   ghostty \
   font-meslo-lg-nerd-font \
-  polypane
+  polypane; do
+  if brew list --cask "$cask" &>/dev/null; then
+    echo "==> $cask already installed via Homebrew, skipping."
+  else
+    app_name=$("$BREW_BIN" info --cask "$cask" 2>/dev/null | grep " (App)" | sed 's/ (App)//')
+    if [ -n "$app_name" ] && [ -d "/Applications/$app_name" ]; then
+      echo "==> $cask already installed (not via Homebrew), skipping."
+    else
+      casks_to_install+=("$cask")
+    fi
+  fi
+done
+
+[ ${#casks_to_install[@]} -gt 0 ] && "$BREW_BIN" install --cask "${casks_to_install[@]}"
 
 # --- Minimal nvm bootstrap so we can use it right away ----------------------
 export NVM_DIR="$HOME/.nvm"

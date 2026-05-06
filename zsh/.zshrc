@@ -1,7 +1,7 @@
 # ----- zsh base -----
 autoload -U compinit; compinit -i -C
 
-DOTFILES_DIR="$HOME/dotfiles"
+DOTFILES_DIR="$(cd "$(dirname "${(%):-%N}")/.." && pwd)"
 export STARSHIP_CONFIG="$DOTFILES_DIR/starship/starship.toml"
 
 # PATH (keep both Homebrew Intel/ARM + /usr/local fallbacks)
