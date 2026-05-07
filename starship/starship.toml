@@ -4,6 +4,7 @@
 # Remove blank line between shell prompts
 add_newline = false
 command_timeout = 2000
+format = '$env_var$directory$git_branch$git_status$nodejs$cmd_duration$line_break$time$character'
 
 [package]
 disabled = true
@@ -34,4 +35,4 @@ disabled = true
 disabled = true
 
 [env_var.ONA_WORKSPACE_NAME]
-format = "[$env_value](bold cyan) "
+format = '[\[$env_value\]](dimmed white) '
