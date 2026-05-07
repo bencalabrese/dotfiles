@@ -14,6 +14,21 @@ EOF
   else
     echo "dotfiles source block already present in $zshrc"
   fi
+
+  if [[ "$DOTFILES_OS" == "Linux" ]]; then
+    local bashrc="$HOME/.bashrc"
+    touch "$bashrc"
+    if ! grep -Fq 'exec zsh' "$bashrc"; then
+      cat >> "$bashrc" <<'EOF'
+
+# Switch to zsh for interactive shells (chsh is ignored by Ona SSH sessions)
+if [[ $- == *i* ]] && command -v zsh >/dev/null 2>&1; then
+  exec zsh
+fi
+EOF
+      echo "Appended zsh exec block to $bashrc"
+    fi
+  fi
 }
 
 configure_git() {
