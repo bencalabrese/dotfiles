@@ -46,6 +46,18 @@ if [[ "${IS_ON_ONA:-}" == "true" ]]; then
   unset _ona_hash
 fi
 
+# Warm page cache for the cwd's git repo once per devbox boot, so Starship
+# doesn't time out on cold git status in large repos. /tmp is tmpfs, so the
+# marker dies with the box.
+if _repo_root=$(git rev-parse --show-toplevel 2>/dev/null); then
+  _warm_marker="/tmp/.git_warm${_repo_root//\//_}"
+  if [[ ! -f "$_warm_marker" ]]; then
+    git -C "$_repo_root" status --porcelain >/dev/null 2>&1
+    : > "$_warm_marker"
+  fi
+  unset _warm_marker _repo_root
+fi
+
 # Prompt
 eval "$(starship init zsh)"
 
