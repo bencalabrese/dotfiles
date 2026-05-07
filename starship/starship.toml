@@ -23,3 +23,12 @@ disabled = true
 
 [time]
 disabled = false
+
+[username]
+disabled = true
+
+[hostname]
+disabled = true
+
+[container]
+disabled = true
