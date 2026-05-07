@@ -33,6 +33,13 @@ else
   [ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion"
 fi
 
+# Ona workspace name (set once at shell startup)
+if [[ "${IS_ON_ONA:-}" == "true" ]]; then
+  _ona_name="$(ona environment get --field=Name 2>/dev/null)"
+  export ONA_WORKSPACE_NAME="${_ona_name:-(unnamed)}"
+  unset _ona_name
+fi
+
 # Prompt
 eval "$(starship init zsh)"
 

@@ -32,3 +32,6 @@ disabled = true
 
 [container]
 disabled = true
+
+[env_var.ONA_WORKSPACE_NAME]
+format = "[$env_value](bold cyan) "
