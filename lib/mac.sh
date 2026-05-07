@@ -26,7 +26,7 @@ install_packages_mac() {
   echo "==> Updating Homebrew..."
   brew update
 
-  for formula in nvm starship fzf gh; do
+  for formula in nvm starship fzf gh tmux; do
     if command -v "$formula" >/dev/null 2>&1; then
       echo "==> $formula already installed, skipping."
     else

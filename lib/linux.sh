@@ -12,6 +12,14 @@ install_packages_linux() {
     sudo apt-get install -y fzf
   fi
 
+  if ! command -v tmux >/dev/null 2>&1; then
+    sudo apt-get install -y tmux
+  fi
+
+  if ! command -v figlet >/dev/null 2>&1; then
+    sudo apt-get install -y figlet
+  fi
+
   if ! command -v gh >/dev/null 2>&1; then
     sudo mkdir -p /etc/apt/keyrings
     curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg \

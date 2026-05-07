@@ -177,6 +177,16 @@ configure_vscode() {
   fi
 }
 
+configure_tmux() {
+  local tmux_conf="$HOME/.tmux.conf"
+  if [ ! -f "$tmux_conf" ]; then
+    printf 'source-file %s/tmux/tmux.conf\n' "$DOTFILES_DIR" > "$tmux_conf"
+    echo "created $tmux_conf"
+  else
+    echo "$tmux_conf exists — leaving as-is"
+  fi
+}
+
 configure_macos_defaults() {
   [[ "$DOTFILES_OS" != "Darwin" || "$DOTFILES_HEADED" != "true" ]] && return 0
 

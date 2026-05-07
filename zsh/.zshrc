@@ -33,11 +33,17 @@ else
   [ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion"
 fi
 
-# Ona workspace name (set once at shell startup)
+# Ona workspace name + stable color/art derived from name
+source "$DOTFILES_DIR/tmux/arts.zsh"
 if [[ "${IS_ON_ONA:-}" == "true" ]]; then
   _ona_name="$(ona environment get --field=Name 2>/dev/null)"
   export ONA_WORKSPACE_NAME="${_ona_name:-(unnamed)}"
   unset _ona_name
+
+  _ona_hash=$(printf '%s' "$ONA_WORKSPACE_NAME" | cksum | cut -d' ' -f1)
+  _tmux_pick_theme "$_ona_hash"
+  export ONA_WORKSPACE_COLOR="$TMUX_COLOR"
+  unset _ona_hash
 fi
 
 # Prompt
@@ -46,6 +52,17 @@ eval "$(starship init zsh)"
 # Your common helpers (guarded)
 source "$DOTFILES_DIR/zsh/.aliases.sh"
 source "$DOTFILES_DIR/zsh/.functions.sh"
+
+# Auto-attach to (or create) a tmux session on Ona
+if [[ "${IS_ON_ONA:-}" == "true" ]] && [[ -z "${TMUX:-}" ]] && command -v tmux >/dev/null 2>&1; then
+  exec tmux new-session -A -s main \
+    -e "ONA_WORKSPACE_NAME=${ONA_WORKSPACE_NAME:-}" \
+    -e "ONA_WORKSPACE_COLOR=${ONA_WORKSPACE_COLOR:-}" \
+    -e "TMUX_COLOR=${TMUX_COLOR:-}" \
+    -e "TMUX_ART_0=${TMUX_ART_0:-}" \
+    -e "TMUX_ART_1=${TMUX_ART_1:-}" \
+    -e "TMUX_ART_2=${TMUX_ART_2:-}"
+fi
 
 # ----- per-machine/work overrides -----
 # Put anything machine- or job-specific in ~/.zshrc.local (untracked)

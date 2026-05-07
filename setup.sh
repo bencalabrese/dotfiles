@@ -33,6 +33,7 @@ configure_git
 configure_ghostty_terminfo
 configure_ghostty_config
 configure_vscode
+configure_tmux
 configure_macos_defaults
 
 echo "Setup complete."
