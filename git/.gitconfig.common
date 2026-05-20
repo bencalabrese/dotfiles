@@ -25,8 +25,8 @@
   sa = stash -u
   sp = stash pop
   rs = reset --soft
-  pm = pull origin master
-  cm = checkout master
+  pm = pull origin main
+  cm = checkout main
 
   # Make a commit with the message passed in with barewords
   cam = "!f() { \
