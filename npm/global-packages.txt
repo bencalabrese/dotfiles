@@ -1,0 +1,2 @@
+# One package spec per line. These are installed with `npm install --global`.
+skills

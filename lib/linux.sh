@@ -12,6 +12,10 @@ install_packages_linux() {
     sudo apt-get install -y fzf
   fi
 
+  if ! command -v bat >/dev/null 2>&1; then
+    sudo apt-get install -y bat
+  fi
+
   if ! command -v tmux >/dev/null 2>&1; then
     sudo apt-get install -y tmux
   fi

@@ -33,6 +33,8 @@ else
   [ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion"
 fi
 
+export BAT_THEME="TwoDark"
+
 # Ona workspace name + stable color/art derived from name
 source "$DOTFILES_DIR/tmux/arts.zsh"
 if [[ "${IS_ON_ONA:-}" == "true" ]]; then
