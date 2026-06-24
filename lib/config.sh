@@ -2,18 +2,28 @@ configure_zsh() {
   local zshrc="$HOME/.zshrc"
   mkdir -p "$(dirname "$zshrc")"
   touch "$zshrc"
-  if ! grep -Fq 'source "$DOTFILES_DIR/zsh/.zshrc"' "$zshrc"; then
-    cat >> "$zshrc" <<EOF
+  # Mark the setup for the dotfiles in .zshrc so we can keep it fresh on each run
+  local begin_marker="# >>> dotfiles_setup_begin >>>"
+  local end_marker="# <<< dotfiles_setup_end <<<"
 
-# Load dotfiles zsh config
+  if grep -Fq "$begin_marker" "$zshrc"; then
+    local tmp
+    tmp="$(mktemp)"
+    sed "/$begin_marker/,/$end_marker/d" "$zshrc" > "$tmp"
+    cat "$tmp" > "$zshrc"
+    rm -f "$tmp"
+    echo "Refreshed dotfiles source block in $zshrc (DOTFILES_DIR=$DOTFILES_DIR)"
+  else
+    echo "Appended dotfiles source block to $zshrc (DOTFILES_DIR=$DOTFILES_DIR)"
+  fi
+
+  cat >> "$zshrc" <<EOF
+$begin_marker
 if [ -f "$DOTFILES_DIR/zsh/.zshrc" ]; then
   source "$DOTFILES_DIR/zsh/.zshrc"
 fi
+$end_marker
 EOF
-    echo "Appended dotfiles source block to $zshrc"
-  else
-    echo "dotfiles source block already present in $zshrc"
-  fi
 
   if [[ "$DOTFILES_OS" == "Linux" ]]; then
     local bashrc="$HOME/.bashrc"
