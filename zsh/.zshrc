@@ -78,6 +78,17 @@ if [[ "${IS_ON_ONA:-}" == "true" ]] && [[ -z "${TMUX:-}" ]] && command -v tmux >
     -e "TMUX_ART_2=${TMUX_ART_2:-}"
 fi
 
+# If we're already inside tmux (e.g. a session created by hand, not via the
+# auto-attach above), seed tmux's GLOBAL environment so the banner vars are
+# present for this and every future session. Without this, only the `main`
+# session — the one created with -e flags above — gets a populated banner.
+if [[ -n "${TMUX:-}" ]] && command -v tmux >/dev/null 2>&1; then
+  for _v in ONA_WORKSPACE_NAME ONA_WORKSPACE_COLOR TMUX_COLOR TMUX_ART_0 TMUX_ART_1 TMUX_ART_2; do
+    tmux set-environment -g "$_v" "${(P)_v}" 2>/dev/null
+  done
+  unset _v
+fi
+
 # ----- per-machine/work overrides -----
 # Put anything machine- or job-specific in ~/.zshrc.local (untracked)
 [ -f "$HOME/.zshrc.local" ] && . "$HOME/.zshrc.local"
